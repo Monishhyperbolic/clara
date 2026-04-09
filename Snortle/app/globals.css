@@ -1,31 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --cream: #F7F3EE;
-  --cream-dark: #EDE7DC;
-  --green: #1E3D2F;
-  --green-mid: #2E5C44;
-  --green-light: #4A8C68;
-  --green-muted: #D2E8DB;
-  --text: #1A2218;
-  --text-mid: #3D4F3A;
-  --text-muted: #718069;
-  --border: rgba(30,61,47,0.12);
+  --cream:      #FEFBF3;
+  --cream-warm: #F5EFE0;
+  --cream-dark: #EDE4CE;
+  --sage:       #7BAE8E;
+  --sage-light: #D4EAE0;
+  --sage-mid:   #A8D0BB;
+  --sage-deep:  #3D7A5E;
+  --forest:     #2A5940;
+  --blush:      #F5DCDC;
+  --rose:       #D4908A;
+  --rose-deep:  #B85C55;
+  --lavender:   #E8E0F0;
+  --violet:     #9880BC;
+  --amber-soft: #F5E6CC;
+  --amber:      #C8943A;
+  --text:       #2C2416;
+  --text-mid:   #5C4E38;
+  --text-muted: #9A8A70;
+  --border:     rgba(80,60,30,0.12);
+  --shadow:     0 2px 16px rgba(80,60,30,0.08);
 }
 
-* { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--cream);
   color: var(--text);
+  line-height: 1.6;
 }
 
-.font-serif { font-family: 'DM Serif Display', serif; }
+.font-serif { font-family: 'Fraunces', serif; }
 
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--green-muted); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--sage-mid); border-radius: 3px; }
+
+/* Retro dot pattern for backgrounds */
+.dot-bg {
+  background-image: radial-gradient(circle, rgba(123,174,142,0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}

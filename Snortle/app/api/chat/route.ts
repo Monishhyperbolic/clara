@@ -1,19 +1,20 @@
-import { getNvidia, NVIDIA_MODEL, SYSTEM_PROMPT } from "@/lib/nvidia";
+import { getNvidia, NVIDIA_MODEL, buildSystemPrompt } from "@/lib/nvidia";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const { messages, userContext } = await req.json();
     const nvidia = getNvidia();
 
     const stream = await nvidia.chat.completions.create({
       model: NVIDIA_MODEL,
-      messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
+      messages: [{ role: "system", content: buildSystemPrompt(userContext) }, ...messages],
       stream: true,
-      max_tokens: 1024,
-      temperature: 0.4,
+      max_tokens: 512,
+      temperature: 0.3,
+      top_p: 0.7,
     });
 
     const encoder = new TextEncoder();
@@ -24,19 +25,11 @@ export async function POST(req: Request) {
             const text = chunk.choices[0]?.delta?.content ?? "";
             if (text) controller.enqueue(encoder.encode(text));
           }
-        } catch (e) {
-          controller.enqueue(encoder.encode(`\n\n[Error: ${e instanceof Error ? e.message : "Stream failed"}]`));
-        } finally {
-          controller.close();
-        }
+        } finally { controller.close(); }
       },
     });
-
-    return new Response(readable, {
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
-    });
+    return new Response(readable, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "Unknown error";
-    return Response.json({ error: msg }, { status: 500 });
+    return Response.json({ error: e instanceof Error ? e.message : "Error" }, { status: 500 });
   }
 }

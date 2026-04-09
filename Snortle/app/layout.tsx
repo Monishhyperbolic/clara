@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Clara — Your AI Doctor",
-  description: "Primary care, supported by AI, that never closes, never rushes you, and never forgets the details.",
+  title: "Snortle — Your AI Doctor",
+  description: "AI-powered health platform backed by board-certified clinicians.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
