@@ -1,49 +1,88 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --cream:      #FEFBF3;
-  --cream-warm: #F5EFE0;
-  --cream-dark: #EDE4CE;
-  --sage:       #7BAE8E;
-  --sage-light: #D4EAE0;
-  --sage-mid:   #A8D0BB;
-  --sage-deep:  #3D7A5E;
-  --forest:     #2A5940;
-  --blush:      #F5DCDC;
-  --rose:       #D4908A;
-  --rose-deep:  #B85C55;
-  --lavender:   #E8E0F0;
-  --violet:     #9880BC;
-  --amber-soft: #F5E6CC;
-  --amber:      #C8943A;
-  --text:       #2C2416;
-  --text-mid:   #5C4E38;
-  --text-muted: #9A8A70;
-  --border:     rgba(80,60,30,0.12);
-  --shadow:     0 2px 16px rgba(80,60,30,0.08);
+  /* Retro-modern warm palette */
+  --parchment:    #F9F4EA;
+  --parchment-2:  #F2EBD9;
+  --parchment-3:  #E8DEC8;
+  --ink:          #1C1409;
+  --ink-mid:      #3D2E1A;
+  --ink-muted:    #7A6A52;
+  --ink-ghost:    #B5A48A;
+
+  --teal:         #2A7B6F;
+  --teal-light:   #C8EAE5;
+  --teal-mid:     #5AADA0;
+  --teal-deep:    #1A5248;
+
+  --rose:         #C4604A;
+  --rose-light:   #F5DDD8;
+  --rose-mid:     #E8967F;
+
+  --gold:         #B8860B;
+  --gold-light:   #F5E9C0;
+  --gold-mid:     #D4A840;
+
+  --sage:         #6B8C6B;
+  --sage-light:   #D8EAD8;
+  --sage-deep:    #3D5A3D;
+
+  --lavender:     #7B6B9E;
+  --lavender-light: #E8E0F5;
+
+  --border:       rgba(60,40,10,0.12);
+  --border-dark:  rgba(60,40,10,0.22);
+  --shadow-sm:    0 1px 6px rgba(60,40,10,0.08);
+  --shadow:       0 4px 20px rgba(60,40,10,0.10);
+  --shadow-lg:    0 8px 40px rgba(60,40,10,0.14);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--cream);
-  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  background: var(--parchment);
+  color: var(--ink);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-.font-serif { font-family: 'Fraunces', serif; }
+.serif { font-family: 'Playfair Display', serif; }
 
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--sage-mid); border-radius: 3px; }
+/* Subtle grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
 
-/* Retro dot pattern for backgrounds */
-.dot-bg {
-  background-image: radial-gradient(circle, rgba(123,174,142,0.15) 1px, transparent 1px);
-  background-size: 20px 20px;
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--parchment-2); }
+::-webkit-scrollbar-thumb { background: var(--teal-mid); border-radius: 10px; }
+
+/* Vintage dashed separator */
+.vintage-sep {
+  border: none;
+  border-top: 1px dashed var(--border-dark);
+  margin: 1.25rem 0;
+}
+
+/* Retro badge pill */
+.retro-badge {
+  display: inline-flex; align-items: center;
+  border: 1.5px solid currentColor;
+  border-radius: 100px;
+  padding: 2px 10px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
