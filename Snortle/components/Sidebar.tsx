@@ -10,6 +10,7 @@ const nav = [
   { href: "/dashboard/labs", label: "Lab Analysis", icon: "🔬" },
   { href: "/dashboard/prescriptions", label: "Prescriptions", icon: "💊" },
   { href: "/dashboard/longevity", label: "Longevity", icon: "📈" },
+  { href: "/admin", label: "Admin Portal", icon: "🔐" },
 ];
 
 export default function Sidebar() {

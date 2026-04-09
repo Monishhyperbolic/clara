@@ -1,6 +1,7 @@
 import { getNvidia, NVIDIA_MODEL, SYSTEM_PROMPT } from "@/lib/nvidia";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 export async function POST(req: Request) {
   try {
