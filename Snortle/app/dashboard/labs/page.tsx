@@ -90,7 +90,7 @@ export default function LabsPage() {
       <div style={{ marginBottom: "2rem" }}>
         <div style={{ fontSize: "0.78rem", fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: "var(--green-light)", marginBottom: "0.25rem" }}>AI-Powered</div>
         <h1 style={{ fontFamily: "'DM Serif Display',serif", fontSize: "2.2rem", color: "var(--green)", letterSpacing: "-0.02em" }}>Lab Analysis</h1>
-        <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", marginTop: "0.25rem" }}>Paste your lab results and Clara will explain every value in plain language.</p>
+        <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", marginTop: "0.25rem" }}>Paste your lab results and Snortle will explain every value in plain language.</p>
       </div>
 
       {!report && (
@@ -121,7 +121,7 @@ export default function LabsPage() {
       {loading && (
         <div style={{ background: "white", borderRadius: 20, border: "1px solid var(--border)", padding: "3rem", textAlign: "center" as const }}>
           <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: "1.5rem", color: "var(--green)", marginBottom: "0.75rem" }}>Analyzing your results...</div>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Clara is reviewing each biomarker against clinical reference ranges and your context.</p>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Snortle is reviewing each biomarker against clinical reference ranges and your context.</p>
         </div>
       )}
 

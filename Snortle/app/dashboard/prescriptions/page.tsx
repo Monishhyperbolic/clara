@@ -129,7 +129,7 @@ export default function PrescriptionsPage() {
           </div>
           {error && <div style={{ padding: "0.75rem", background: "#FCEBEB", borderRadius: 10, fontSize: "0.85rem", color: "#A32D2D", marginBottom: "1rem" }}>{error}</div>}
           <button onClick={requestRefill} disabled={!form.medication || !form.reason || loading} style={{ width: "100%", background: form.medication && form.reason ? "var(--green)" : "var(--green-muted)", color: form.medication && form.reason ? "var(--cream)" : "var(--text-muted)", border: "none", borderRadius: 12, padding: "0.875rem", fontSize: "0.95rem", fontWeight: 500, cursor: form.medication && form.reason ? "pointer" : "default" }}>
-            {loading ? "Clara is drafting your request..." : "Generate Refill Request →"}
+            {loading ? "Snortle is drafting your request..." : "Generate Refill Request →"}
           </button>
         </div>
       )}
@@ -139,7 +139,7 @@ export default function PrescriptionsPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", background: "var(--green-muted)", borderRadius: 12, padding: "1rem 1.25rem", marginBottom: "1.5rem" }}>
             <span style={{ fontSize: "1.2rem" }}>✅</span>
             <div>
-              <div style={{ fontWeight: 500, fontSize: "0.92rem", color: "var(--green)" }}>Request drafted by Clara</div>
+              <div style={{ fontWeight: 500, fontSize: "0.92rem", color: "var(--green)" }}>Request drafted by Snortle</div>
               <div style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>Review below and submit for clinician approval</div>
             </div>
             <span style={{ marginLeft: "auto", fontSize: "0.72rem", fontWeight: 500, padding: "3px 10px", borderRadius: 100, background: urgencyColor(draft.urgency).bg, color: urgencyColor(draft.urgency).text }}>

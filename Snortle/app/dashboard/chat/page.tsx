@@ -17,7 +17,7 @@ const suggestions = [
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Hi, I'm Clara — your AI health assistant. I can analyze your labs, review your medications, help you understand symptoms, and draft prescription requests for your clinician. How can I help you today?" }
+    { role: "assistant", content: "Hi, I'm Snortle — your AI health assistant. I can analyze your labs, review your medications, help you understand symptoms, and draft prescription requests for your clinician. How can I help you today?" }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -82,7 +82,7 @@ export default function ChatPage() {
       <div style={{ padding: "1.5rem 2rem", borderBottom: "1px solid var(--border)", background: "white", display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0 }}>
         <div style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--green-muted)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'DM Serif Display',serif", fontSize: "1.1rem", color: "var(--green)" }}>C</div>
         <div>
-          <div style={{ fontWeight: 500, fontSize: "1rem" }}>Clara</div>
+          <div style={{ fontWeight: 500, fontSize: "1rem" }}>Snortle</div>
           <div style={{ fontSize: "0.75rem", color: "var(--green-light)" }}>
             {loading ? "⌛ Thinking..." : "● Online · Powered by NVIDIA NIM"}
           </div>
@@ -112,7 +112,7 @@ export default function ChatPage() {
             {msg.role === "assistant" && (
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.4rem" }}>
                 <div style={{ width: 24, height: 24, borderRadius: "50%", background: "var(--green-muted)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'DM Serif Display',serif", fontSize: "0.75rem", color: "var(--green)" }}>C</div>
-                <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Clara</span>
+                <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Snortle</span>
               </div>
             )}
             <div style={{
@@ -140,7 +140,7 @@ export default function ChatPage() {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKey}
-            placeholder="Ask Clara anything about your health..."
+            placeholder="Ask Snortle anything about your health..."
             rows={1}
             style={{ flex: 1, border: "none", background: "transparent", resize: "none", fontFamily: "'DM Sans',sans-serif", fontSize: "0.92rem", color: "var(--text)", outline: "none", lineHeight: 1.5, maxHeight: 120, overflow: "auto" }}
           />
@@ -152,7 +152,7 @@ export default function ChatPage() {
           }}>↑</button>
         </div>
         <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", textAlign: "center" as const, marginTop: "0.6rem" }}>
-          Clara is an AI assistant. All outputs are informational only and reviewed by licensed clinicians.
+          Snortle is an AI assistant. All outputs are informational only and reviewed by licensed clinicians.
         </div>
       </div>
     </div>
