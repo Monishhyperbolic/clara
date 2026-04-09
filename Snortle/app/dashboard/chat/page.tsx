@@ -212,49 +212,94 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Voice panel */}
+      {/* Voice call screen — full immersive */}
       {mode === "voice" && (
-        <div style={{ background: "var(--teal-deep)", padding: "1.75rem 2rem", flexShrink: 0, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-          {/* Waveform */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "3px", height: 48, marginBottom: "1rem" }}>
-            {[...Array(barCount)].map((_, i) => {
-              const active = voiceState === "listening" || voiceState === "speaking";
-              const baseH = active ? 8 + Math.abs(Math.sin(i * 0.7)) * 32 : 4;
-              const delay = `${i * 0.04}s`;
-              const color = voiceState === "listening" ? "var(--teal-light)" : voiceState === "speaking" ? "var(--gold-light)" : voiceState === "thinking" ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.15)";
-              return (
-                <div key={i} style={{ width: 3, borderRadius: 2, background: color, height: `${baseH}px`, animation: active ? `pulse-bar 0.5s ${delay} ease-in-out infinite alternate` : "none", transition: "height 0.2s, background 0.3s" }} />
-              );
-            })}
+        <div style={{ flex: 1, background: "#0F2820", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between", padding: "2.5rem 2rem", overflow: "hidden", position: "relative" }}>
+          {/* Background rings */}
+          {voiceActive && (
+            <>
+              <div style={{ position: "absolute", width: 320, height: 320, borderRadius: "50%", border: "1px solid rgba(90,173,160,0.12)", animation: "ring-pulse 2s ease-in-out infinite" }} />
+              <div style={{ position: "absolute", width: 240, height: 240, borderRadius: "50%", border: "1px solid rgba(90,173,160,0.18)", animation: "ring-pulse 2s 0.4s ease-in-out infinite" }} />
+              <div style={{ position: "absolute", width: 160, height: 160, borderRadius: "50%", border: "1px solid rgba(90,173,160,0.25)", animation: "ring-pulse 2s 0.8s ease-in-out infinite" }} />
+            </>
+          )}
+
+          {/* Call timer / status chip */}
+          <div style={{ zIndex: 1, background: "rgba(255,255,255,0.06)", borderRadius: 100, padding: "0.3rem 1rem", fontSize: "0.72rem", color: "rgba(255,255,255,0.5)", fontWeight: 500, letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: "0.4rem" }}>
+            {voiceActive && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#34D399", display: "inline-block", animation: "blink 1s ease-in-out infinite" }} />}
+            {voiceActive ? "ON CALL · SNORTLE AI" : "VOICE CONSULTATION"}
           </div>
 
-          {/* Status */}
-          <div style={{ textAlign: "center", marginBottom: "1.25rem" }}>
-            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: "1rem", color: "#F9F4EA", fontStyle: "italic", marginBottom: "0.3rem" }}>
-              {stateLabel[voiceState]}
-            </div>
-            {voiceTranscript && (
-              <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.5)", fontStyle: "italic" }}>
-                &ldquo;{voiceTranscript}&rdquo;
+          {/* Avatar + waveform */}
+          <div style={{ zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem" }}>
+            {/* Big avatar */}
+            <div style={{ position: "relative" }}>
+              <div style={{ width: 110, height: 110, borderRadius: "50%", background: voiceState === "speaking" ? "#2A7B6F" : voiceState === "listening" ? "#1A5248" : "#1E3A30", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Playfair Display',serif", fontSize: "2.5rem", color: "#C8EAE5", fontStyle: "italic", border: `3px solid ${voiceState === "speaking" ? "#5AADA0" : voiceState === "listening" ? "#34D399" : "rgba(255,255,255,0.1)"}`, transition: "all 0.3s", boxShadow: voiceState === "speaking" ? "0 0 40px rgba(42,123,111,0.4)" : "none" }}>
+                S
               </div>
-            )}
+              {/* Speaking indicator ring */}
+              {(voiceState === "speaking" || voiceState === "listening") && (
+                <div style={{ position: "absolute", inset: -6, borderRadius: "50%", border: "2px solid", borderColor: voiceState === "speaking" ? "#5AADA0" : "#34D399", animation: "ring-spin 1.5s linear infinite", opacity: 0.6 }} />
+              )}
+            </div>
+
+            {/* Waveform bars */}
+            <div style={{ display: "flex", alignItems: "center", gap: "4px", height: 48 }}>
+              {[...Array(barCount)].map((_, i) => {
+                const active = voiceState === "listening" || voiceState === "speaking";
+                const h = active ? 8 + Math.abs(Math.sin(i * 0.85 + i)) * 30 : 4;
+                const color = voiceState === "listening" ? "#34D399" : voiceState === "speaking" ? "#5AADA0" : "rgba(255,255,255,0.15)";
+                return <div key={i} style={{ width: 3, borderRadius: 3, background: color, height: `${h}px`, animation: active ? `pulse-bar ${0.3 + (i % 4) * 0.1}s ease-in-out infinite alternate` : "none", transition: "height 0.15s, background 0.3s" }} />;
+              })}
+            </div>
+
+            {/* Status text */}
+            <div style={{ textAlign: "center" as const }}>
+              <div style={{ fontFamily: "'Playfair Display',serif", fontStyle: "italic", fontSize: "1.2rem", color: "#F9F4EA", marginBottom: "0.3rem" }}>
+                {voiceState === "speaking" ? "Snortle is speaking" : voiceState === "listening" ? "Listening..." : voiceState === "thinking" ? "Thinking..." : voiceActive ? "Tap to speak" : "Start a consultation"}
+              </div>
+              {voiceTranscript && (
+                <div style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.45)", fontStyle: "italic", maxWidth: 280, textAlign: "center" as const }}>
+                  &ldquo;{voiceTranscript}&rdquo;
+                </div>
+              )}
+              {!voiceActive && (
+                <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.35)", marginTop: "0.4rem" }}>Snortle will speak and listen in turn</p>
+              )}
+            </div>
           </div>
 
-          {/* Controls */}
-          <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
-            <button onClick={toggleCall} style={{ background: voiceActive ? "var(--rose)" : "var(--teal-mid)", color: "white", border: "none", borderRadius: 100, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 600, cursor: "pointer", letterSpacing: "0.02em" }}>
-              {voiceActive ? "✕ End call" : "◎ Start call"}
-            </button>
-            {voiceActive && voiceState === "idle" && (
-              <button onClick={() => startListening()} style={{ background: "rgba(255,255,255,0.1)", color: "#F9F4EA", border: "1.5px solid rgba(255,255,255,0.2)", borderRadius: 100, padding: "0.6rem 1.5rem", fontSize: "0.85rem", cursor: "pointer" }}>
-                ● Speak
-              </button>
-            )}
-            <label style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.65)", border: "1.5px solid rgba(255,255,255,0.1)", borderRadius: 100, padding: "0.6rem 1.25rem", fontSize: "0.82rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.4rem" }}>
-              {pdfLoading ? "⏳ Reading..." : "⬡ Upload PDF"}
+          {/* Bottom controls */}
+          <div style={{ zIndex: 1, display: "flex", gap: "1.5rem", alignItems: "center" }}>
+            {/* Upload PDF */}
+            <label style={{ width: 52, height: 52, borderRadius: "50%", background: "rgba(255,255,255,0.08)", border: "1.5px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexDirection: "column" as const, fontSize: "1.1rem" }} title="Upload PDF">
+              {pdfLoading ? "⏳" : "📎"}
               <input type="file" accept=".pdf" style={{ display: "none" }} onChange={async e => { const f = e.target.files?.[0]; if (f) { setMode("chat"); await handlePdf(f); } }} />
             </label>
+
+            {/* Speak button — big */}
+            {voiceActive && voiceState === "idle" && (
+              <button onClick={() => startListening()} style={{ width: 72, height: 72, borderRadius: "50%", background: "#22C55E", color: "white", border: "none", cursor: "pointer", fontSize: "1.6rem", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 24px rgba(34,197,94,0.4)" }}>
+                🎙
+              </button>
+            )}
+            {(!voiceActive || voiceState !== "idle") && (
+              <div style={{ width: 72, height: 72, borderRadius: "50%", background: "rgba(255,255,255,0.04)", border: "1.5px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", color: "rgba(255,255,255,0.2)" }}>
+                🎙
+              </div>
+            )}
+
+            {/* End / Start call */}
+            <button onClick={toggleCall} style={{ width: 52, height: 52, borderRadius: "50%", background: voiceActive ? "#DC2626" : "#2A7B6F", color: "white", border: "none", cursor: "pointer", fontSize: "1.2rem", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: voiceActive ? "0 0 20px rgba(220,38,38,0.4)" : "none" }}>
+              {voiceActive ? "✕" : "✆"}
+            </button>
           </div>
+
+          <style>{`
+            @keyframes ring-pulse { 0%,100% { transform: scale(1); opacity:0.6; } 50% { transform: scale(1.08); opacity:0.3; } }
+            @keyframes ring-spin  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+            @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+          `}</style>
         </div>
       )}
 
