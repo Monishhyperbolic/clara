@@ -1,6 +1,6 @@
 import { getNvidia, NVIDIA_MODEL } from "@/lib/nvidia";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   const { labs } = await req.json();
