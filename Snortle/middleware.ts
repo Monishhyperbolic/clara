@@ -3,9 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const cookies = request.cookies.getAll();
-  const isLoggedIn = cookies.some(
-    (c) => c.name.startsWith("sb-") && c.name.endsWith("-auth-token")
-  );
+  const isLoggedIn = cookies.some((c) => c.name.startsWith("sb-"));
 
   if (!isLoggedIn && (path.startsWith("/dashboard") || path.startsWith("/admin"))) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
