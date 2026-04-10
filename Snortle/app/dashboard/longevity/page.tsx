@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 interface Intervention { title: string; category: string; impact: "high" | "medium" | "low"; description: string; }
 interface Category { name: string; score: number; status: string; summary: string; }
@@ -55,6 +56,23 @@ export default function LongevityPage() {
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setReport(data);
+      // Save report to user metadata so chat can reference it
+      try {
+        const supabase = createClient();
+        await supabase.auth.updateUser({
+          data: {
+            longevityReport: {
+              score: data.longevityScore,
+              biologicalAge: data.biologicalAge,
+              summary: data.summary,
+              topWins: data.topWins,
+              topRisks: data.topRisks,
+              categories: data.categories,
+              interventions: data.interventions?.slice(0, 5),
+            }
+          }
+        });
+      } catch {}
     } catch (e: unknown) { setError(e instanceof Error ? e.message : "Analysis failed"); }
     finally { setLoading(false); }
   }

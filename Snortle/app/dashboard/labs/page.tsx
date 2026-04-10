@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { extractPdfText } from "@/lib/extractPdf";
 
 const SAMPLE = `CBC:\nWBC: 6.2 x10^3/uL (ref: 4.5-11.0)\nHemoglobin: 14.2 g/dL (ref: 13.5-17.5)\n\nLipid Panel:\nTotal Cholesterol: 218 mg/dL (ref: <200)\nLDL: 142 mg/dL (ref: <100)\nHDL: 52 mg/dL (ref: >40)\nTriglycerides: 108 mg/dL (ref: <150)\n\nMetabolic:\nGlucose: 94 mg/dL (ref: 70-100)\nHbA1c: 5.4% (ref: <5.7)\nVitamin D: 42 ng/mL (ref: 30-100)\nTSH: 2.1 mIU/L (ref: 0.4-4.0)`;
@@ -31,6 +32,21 @@ export default function LabsPage() {
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setReport(data);
+      // Save lab results to user metadata so chat can reference them
+      try {
+        const supabase = createClient();
+        const labMap: Record<string,string> = {};
+        data.results?.forEach((r: {name: string; value: string}) => { labMap[r.name] = r.value; });
+        const today = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+        await supabase.auth.updateUser({
+          data: {
+            recentLabs: labMap,
+            labHistory: data.results?.map((r: {name: string; value: string; status: string}) => ({
+              name: r.name, value: r.value, status: r.status, date: today
+            })) || []
+          }
+        });
+      } catch {}
     } catch (e: unknown) { setError(e instanceof Error ? e.message : "Analysis failed"); }
     finally { setLoading(false); }
   }

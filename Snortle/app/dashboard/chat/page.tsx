@@ -1,6 +1,5 @@
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { extractPdfText } from "@/lib/extractPdf";
 import MarkdownMessage from "@/components/MarkdownMessage";
 
@@ -65,12 +64,11 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined") synthRef.current = window.speechSynthesis;
-    createClient().auth.getUser().then(({ data }) => {
-      if (!data.user) return;
-      const m = data.user.user_metadata || {};
-      const ctx = { name: m.full_name || data.user.email?.split("@")[0], age: m.age || "", sex: m.sex || "", activeMeds: ["Metformin 500mg", "Atorvastatin 20mg", "Vitamin D3 5000IU"], allergies: "Penicillin", recentLabs: { LDL: "142 mg/dL", HbA1c: "5.4%", "Vitamin D": "42 ng/mL", TSH: "2.1 mIU/L" }, conditions: [] };
-      setUserCtx(ctx); userCtxRef.current = ctx;
-    });
+    // Fetch full health context from server (labs, longevity, refills, meds)
+    fetch("/api/user-context")
+      .then(r => r.json())
+      .then(ctx => { if (!ctx.error) { setUserCtx(ctx); userCtxRef.current = ctx; } })
+      .catch(() => {});
     return () => { stopEverything(); };
   }, []);
 
