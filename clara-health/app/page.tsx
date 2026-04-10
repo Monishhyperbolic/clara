@@ -30,9 +30,9 @@ export default function Home() {
       </nav>
 
       {/* ── HERO ── */}
-      <section style={{ minHeight: "100vh", padding: "110px 5vw 80px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center", position: "relative", maxWidth: 1280, margin: "0 auto" }}>
+      <section style={{ padding: "96px 5vw 72px", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "4rem", alignItems: "center", position: "relative", maxWidth: 1200, margin: "0 auto" }}>
         {/* Background blob */}
-        <div style={{ position: "absolute", right: "5%", top: "15%", width: 500, height: 500, background: "radial-gradient(circle, #C8EAE5 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none", zIndex: 0 }} />
+        <div style={{ position: "absolute", right: "-2%", top: "-5%", width: 420, height: 420, background: "radial-gradient(circle, #C8EAE5 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none", zIndex: 0 }} />
 
         {/* Left: copy */}
         <div style={{ position: "relative", zIndex: 1 }}>
